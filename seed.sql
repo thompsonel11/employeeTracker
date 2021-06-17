@@ -9,7 +9,7 @@ VALUES ("Alison", "Blodgett", 1, 4),
 ("Sarah", "Michaels", 6, 6),
 ("Will", "Braddy", 7, 7),
 ("Zach", "Williams", 1, 4),
-("Beth", "Farley", 2, 5),
+("Beth", "Farley", 2, 5);
 
 
 INSERT INTO departmentTable (deptName)
@@ -19,7 +19,7 @@ VALUES ("Engineering"),
 ("Sales");
 
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO roleTable (title, salary, departmentId)
 VALUES ("Sales Lead", 160000, 4), 
 ("Salesperson", 120000, 4),
 ("Lead Engineer", 130000, 1),

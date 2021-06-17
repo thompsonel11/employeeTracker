@@ -11,8 +11,10 @@ CREATE TABLE departmentTable (
 CREATE TABLE roleTable (
   id INT AUTO_INCREMENT NOT NULL,
   title VARCHAR(30) NULL,
-  salary DECIMAL UNASSIGNED NULL,
+  salary DECIMAL UNSIGNED NULL,
   departmentId INT NULL, 
+  CONSTRAINT FK_departmentId_tbl_departmentTable FOREIGN KEY(departmentId)
+  REFERENCES departmentTable(id),
   PRIMARY KEY (id)  
 );
 
@@ -22,10 +24,18 @@ CREATE TABLE employeeTable (
   lastName VARCHAR(30) NULL,
   roleId INT NULL, 
   managerId INT NULL,
-  PRIMARY KEY (id)  
+  CONSTRAINT FK_managerId_tbl_employeeTable FOREIGN KEY(managerId)
+  REFERENCES employeeTable(id), 
+  PRIMARY KEY (id)
 );
 
 
 SELECT * FROM departmentTable;
 SELECT * FROM roleTable;
 SELECT * FROM employeeTable;
+
+
+SELECT employeeTable.id, employeeTable.firstName, employeeTable.lastName, roleTable.title, departmentTable.deptName, roleTable.salary, employeeTable.managerId
+FROM employeeTable
+JOIN roleTable, departmentTable
+WHERE 

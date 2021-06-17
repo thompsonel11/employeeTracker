@@ -151,7 +151,7 @@ const selectAction = () => {
         });
       });
     };
-    
+
    // ************* UPDATE EMPLOYEE ROLE - REQUIRED *********************     
   const updateRole = () => {
     inquirer
@@ -195,6 +195,23 @@ const selectAction = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
   // ***************************************************************************  
   // *******************  BEGIN EXTRA CREDIT FUNCTIONS  ************************ 
@@ -245,7 +262,6 @@ const selectAction = () => {
   
 
 // *************  REMOVE EMPLOYEE FUNCTION - EXTRA CREDIT  **************
-// figure out which type is appropriate and how to dynamically list employees from table 
   const removeEmployee = () => {
     inquirer
       .prompt(
