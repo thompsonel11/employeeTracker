@@ -27,7 +27,7 @@ const selectAction = () => {
           'View All Employees By Department',
           'View All Employees By Manager',
           'Add Employee',
-          'Remove Emloyee',
+          'Remove Employee',
           'Update Employee Role',
           'Update Employee Manager',
           'Exit'
@@ -51,7 +51,7 @@ const selectAction = () => {
             addEmployee();
             break;
   
-          case 'Remove Emloyee':
+          case 'Remove Employee':
             removeEmployee();
             break;
   
@@ -102,7 +102,7 @@ const selectAction = () => {
         message: 'Which department would you like to view?',
         choices: [
 
-        // HELP
+        // HELP - dynamically return list of departments from DB
 
         ]}
       )
@@ -182,12 +182,7 @@ const selectAction = () => {
         type: 'list',
         message: 'Which employee would you like to remove?', 
         choice: [
-          'Sales Lead', 
-          'Sales Person',
-          'Lead Engineer', 
-          'Software Engineer',
-          'Accountant',
-          'Legal Team Lead'
+
         ]
         }     
         )
