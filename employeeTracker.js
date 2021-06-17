@@ -5,8 +5,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
-//enter password? 
-  password: '',
+  password: '2523435702',
   database: 'employeeDB',
 });
 
@@ -16,44 +15,40 @@ connection.connect((err) => {
   });
 
 
-
-
-  
-//   EDIT THIS 
-const runSearch = () => {
+const selectAction = () => {
     inquirer
       .prompt({
         name: 'action',
         type: 'list',
         message: 'What would you like to do?',
         choices: [
-          'Find songs by artist',
-          'Find all artists who appear more than once',
-          'Find data within a specific range',
-          'Search for a specific song',
-          'exit',
+          'Add Employee',
+          'Remove Emloyee',
+          'Update Employee Role',
+          'View All Roles',
+          'Add Role',
         ],
       })
       .then((answer) => {
         switch (answer.action) {
-          case 'Find songs by artist':
-            artistSearch();
+          case 'Add Employee':
+            addEmployee();
             break;
   
-          case 'Find all artists who appear more than once':
-            multiSearch();
+          case 'Remove Emloyee':
+            removeEmployee();
             break;
   
-          case 'Find data within a specific range':
-            rangeSearch();
+          case 'Update Employee Role':
+            updateRole();
             break;
   
-          case 'Search for a specific song':
-            songSearch();
+          case 'View All Roles':
+            viewRoles();
             break;
   
-          case 'Exit':
-            connection.end();
+          case 'Add Role':
+            addRole();
             break;
   
           default:
@@ -63,13 +58,33 @@ const runSearch = () => {
       });
   };
   
-  const artistSearch = () => {
+  const addEmployee = () => {
     inquirer
-      .prompt({
-        name: 'artist',
+      .prompt(
+        {
+        name: 'firstName',
         type: 'input',
-        message: 'What artist would you like to search for?',
-      })
+        message: 'What is the employees first name?',
+        }
+        {
+        name: 'lastName',
+        type: 'input',
+        message: 'What is the employees last name?',
+        }
+        {
+        name: 'role',
+        type: 'list',
+        message: 'What is the employees role?', 
+        choice: [
+          'Sales Lead', 
+          'Sales Person',
+          'Lead Engineer', 
+          'Software Engineer',
+          'Accountant',
+          'Legal Team Lead'
+        ]
+        }     
+        )
       .then((answer) => {
         const query = 'SELECT position, song, year FROM top5000 WHERE ?';
         connection.query(query, { artist: answer.artist }, (err, res) => {
@@ -84,7 +99,7 @@ const runSearch = () => {
       });
   };
   
-  const multiSearch = () => {
+  const removeEmployee = () => {
     const query =
       'SELECT artist FROM top5000 GROUP BY artist HAVING count(*) > 1';
     connection.query(query, (err, res) => {
@@ -94,7 +109,7 @@ const runSearch = () => {
     });
   };
   
-  const rangeSearch = () => {
+  const updateRole = () => {
     inquirer
       .prompt([
         {
@@ -135,7 +150,7 @@ const runSearch = () => {
       });
   };
   
-  const songSearch = () => {
+  const viewRoles = () => {
     inquirer
       .prompt({
         name: 'song',
@@ -163,3 +178,30 @@ const runSearch = () => {
       });
   };
   
+  const addRole = () => {
+    inquirer
+      .prompt({
+        name: 'role',
+        type: 'input',
+        message: 'What song would you like to look for?',
+      })
+      .then((answer) => {
+        console.log(`You searched for "${answer.song}"`);
+        connection.query(
+          'SELECT * FROM top5000 WHERE ?',
+          { song: answer.song },
+          (err, res) => {
+            if (err) throw err;
+            if (res[0]) {
+              console.log(
+                `Position: ${res[0].position} || Song: ${res[0].song} || Artist: ${res[0].artist} || Year: ${res[0].year}`
+              );
+              runSearch();
+            } else {
+              console.error('Song not found :(\n');
+              runSearch();
+            }
+          }
+        );
+      });
+  };
