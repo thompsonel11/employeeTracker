@@ -14,6 +14,7 @@ connection.connect((err) => {
     runSearch();
   });
 
+// ************  PROMPT USER TO SELECTION ACTION ******************
 
 const selectAction = () => {
     inquirer
@@ -27,6 +28,7 @@ const selectAction = () => {
           'Update Employee Role',
           'View All Roles',
           'Add Role',
+          'Exit'
         ],
       })
       .then((answer) => {
@@ -57,7 +59,9 @@ const selectAction = () => {
         }
       });
   };
-  
+
+  // *************  ADD EMPLOYEE FUNCTION  ******************
+
   const addEmployee = () => {
     inquirer
       .prompt(
@@ -86,29 +90,38 @@ const selectAction = () => {
         }     
         )
       .then((answer) => {
-        const query = 'SELECT position, song, year FROM top5000 WHERE ?';
-        connection.query(query, { artist: answer.artist }, (err, res) => {
-          if (err) throw err;
-          res.forEach(({ position, song, year }) => {
-            console.log(
-              `Position: ${position} || Song: ${song} || Year: ${year}`
-            );
-          });
-          runSearch();
+// FIGURE OUT WHAT GOES HERE 
+        selectAction();
         });
-      });
-  };
-  
+      };
+
+// *************  REMOVE EMPLOYEE FUNCTION  **************
+// figure out which type is appropriate and how to dynamically list employees from table 
   const removeEmployee = () => {
-    const query =
-      'SELECT artist FROM top5000 GROUP BY artist HAVING count(*) > 1';
-    connection.query(query, (err, res) => {
-      if (err) throw err;
-      res.forEach(({ artist }) => console.log(artist));
-      runSearch();
-    });
-  };
+    inquirer
+      .prompt(
+        {
+        name: 'removeEmp',
+        type: 'list',
+        message: 'Which employee would you like to remove?', 
+        choice: [
+          'Sales Lead', 
+          'Sales Person',
+          'Lead Engineer', 
+          'Software Engineer',
+          'Accountant',
+          'Legal Team Lead'
+        ]
+        }     
+        )
+      .then((answer) => {
+// FIGURE OUT WHAT GOES HERE TO REMOVE SELECTED EMPLOYEE FROM TABLE 
+        selectAction();
+        });
+      };
   
+
+ // ************* UPDATE THE ROLE *********************     
   const updateRole = () => {
     inquirer
       .prompt([
