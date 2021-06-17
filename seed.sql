@@ -1,23 +1,23 @@
 USE employeeDB;
 
 INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
-VALUES ("Alison", "Blodgett", 1, 8),
-("Liz", "Thompson", 2, 7),
+VALUES ("Alison", "Blodgett", 1, 4),
+("Liz", "Thompson", 2, 5),
 ("Matt", "Rogers", 3, 1),
-("Alex", "Matthews", 4, 1),
-("Kat", "Joyner", 5, 6),
-("Sarah", "Michaels", 6, 9),
-("Will", "Braddy", 7, 5),
-("Zach", "Williams", 1, 3),
-("Beth", "Farley", 2, 2),
-SELECT * FROM employeeTable;
+("Alex", "Matthews", 4, 2),
+("Kat", "Joyner", 5, 3),
+("Sarah", "Michaels", 6, 6),
+("Will", "Braddy", 7, 7),
+("Zach", "Williams", 1, 4),
+("Beth", "Farley", 2, 5),
 
-INSERT INTO departmentTable (name)
+
+INSERT INTO departmentTable (deptName)
 VALUES ("Engineering"), 
 ("Finance"),
 ("Legal"),
 ("Sales");
-SELECT * FROM department;
+
 
 INSERT INTO role (title, salary, department_id)
 VALUES ("Sales Lead", 160000, 4), 
@@ -27,5 +27,5 @@ VALUES ("Sales Lead", 160000, 4),
 ("Accountant", 120000, 2),
 ("Legal Team Lead", 200000, 3),
 ("Lawyer", 150000, 3);
-SELECT * FROM roleTable;
+
 

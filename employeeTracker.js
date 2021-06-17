@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+require('console.table');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -11,7 +12,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) throw err;
-    runSearch();
+    selectAction();
   });
 
 // ************  PROMPT USER TO SELECT ACTION ******************
@@ -24,12 +25,18 @@ const selectAction = () => {
         message: 'What would you like to do?',
         choices: [
           'View All Employees',
-          'View All Employees By Department',
-          'View All Employees By Manager',
+          // 'View All Employees By Department',
+          // 'View All Employees By Manager',
           'Add Employee',
-          'Remove Employee',
+          // 'Remove Employee',
           'Update Employee Role',
-          'Update Employee Manager',
+          // 'Update Employee Manager',
+          'View All Roles',
+          'Add Role',
+          // 'Remove Role',
+          'View All Departments',
+          'Add Department',
+          // 'Remove Department',
           'Exit'
         ],
       })
@@ -39,30 +46,50 @@ const selectAction = () => {
             viewAll();
             break;
 
-          case 'View All Employees By Department':
-            viewDept();
-            break;
+          // case 'View All Employees By Department':
+          //   viewByDept();
+          //   break;
 
-          case 'View All Employees By Manager':
-            viewManager();
-            break;           
+          // case 'View All Employees By Manager':
+          //   viewByManager();
+          //   break;           
 
           case 'Add Employee':
             addEmployee();
             break;
   
-          case 'Remove Employee':
-            removeEmployee();
-            break;
+          // case 'Remove Employee':
+          //   removeEmployee();
+          //   break;
   
           case 'Update Employee Role':
             updateRole();
             break;
   
-          case 'Update Employee Manager':
-            updateManager();
+          // case 'Update Employee Manager':
+          //   updateManager();
+          //   break;
+          
+          case 'View All Roles':
+            viewAllRoles();
             break;
-  
+
+          case 'Add Role':
+            addRole();
+            break;
+
+          // case 'Remove Role':
+          //   removeRole();
+          //   break;
+
+          case 'View All Departments':
+            viewAllDept();
+            break;
+          
+          case 'Add Department':
+            addDept();
+            break;
+
           case 'Exit':
             connection.end();
             break;
@@ -78,23 +105,103 @@ const selectAction = () => {
   // ************  BEGIN FUNCTIONS FOR EACH ACTION **************
   // ************************************************************
 
-  // ************* VIEW ALL FUNCTION ****************************
+  // ************* VIEW ALL FUNCTION - REQUIRED ****************************
   const viewAll = () => {
+    const query = `SELECT * FROM employeeDB.employeeTable`
+    connection.query(query,(error,res)=> {
+      if (error) throw error;
+      console.table(res)
+      selectAction();
+    })}
+
+  // *************  ADD EMPLOYEE FUNCTION - REQUIRED  ******************
+    const addEmployee = () => {
     inquirer
       .prompt(
+        {
+        name: 'firstName',
+        type: 'input',
+        message: 'What is the employees first name?',
+        },
+        {
+        name: 'lastName',
+        type: 'input',
+        message: 'What is the employees last name?',
+        },
+        {
+        name: 'role',
+        type: 'list',
+        message: 'What is the employees role?', 
+        choice: [
+          'Sales Lead', 
+          'Sales Person',
+          'Lead Engineer', 
+          'Software Engineer',
+          'Accountant',
+          'Legal Team Lead'
+        ]
+        }     
+        )
+      .then((answer) => {
+        const query = `INSERT INTO employeeDB.employeeTable (employeeTable.firstName, employeeTable.lastName, employeeTable.roleId, employeeTable.managerId) VALUES (?,?,?,?)`
+        connection.query(query,(error,res)=> {
+        if (error) throw error;
+        console.table(res)
+        selectAction();
+        });
+      });
 
-      )
+  // ************* UPDATE EMPLOYEE ROLE - REQUIRED *********************     
+  const updateRole = () => {
+    inquirer
+      .prompt([ 
+
+
+      ])
       .then((answer) => {
 
-       
+      
       
       selectAction();
       }
       )
+    }
+
+  // ************* VIEW ALL ROLES FUNCTION - REQUIRED *****************
+  const viewAllRoles = () => {
+    const query = `SELECT * FROM employeeDB.roleTable`
+    connection.query(query,(error,res)=> {
+      if (error) throw error;
+      console.table(res)
+      selectAction();
+    })}
+
+  // ****************** ADD ROLE FUNCTION - REQUIRED *********************
+  const addRole = () => {
+
   }
 
-  // ************* VIEW ALL BY DEPT FUNCTION *********************
-  const viewDept = () => {
+
+  // ************* VIEW ALL DEPARTMENTS FUNCTION - REQUIRED *****************
+  const viewAllDept = () => {
+    const query = `SELECT * FROM employeeDB.departmentTable`
+    connection.query(query,(error,res)=> {
+      if (error) throw error;
+      console.table(res)
+      selectAction();
+    })}
+
+
+
+
+
+
+  // ***************************************************************************  
+  // *******************  BEGIN EXTRA CREDIT FUNCTIONS  ************************ 
+  // ***************************************************************************  
+  
+  // ************* VIEW ALL EMPLOYEES BY DEPT FUNCTION - EXTRA CREDIT **********
+  const viewByDept = () => {
     inquirer
       .prompt({
         name: 'viewByDept',
@@ -108,14 +215,12 @@ const selectAction = () => {
       )
       .then((answer) => {
 
-       
-      
       selectAction();
       }
       )
   }
 
-  // ************* VIEW ALL BY MANAGER FUNCTION ******************
+  // ************* VIEW ALL BY MANAGER FUNCTION - EXTRA CREDIT  ******************
   const viewManager = () => {
     inquirer
       .prompt({
@@ -137,42 +242,9 @@ const selectAction = () => {
       )
   }
 
-  // *************  ADD EMPLOYEE FUNCTION  ******************
+  
 
-  const addEmployee = () => {
-    inquirer
-      .prompt(
-        {
-        name: 'firstName',
-        type: 'input',
-        message: 'What is the employees first name?',
-        }
-        {
-        name: 'lastName',
-        type: 'input',
-        message: 'What is the employees last name?',
-        }
-        {
-        name: 'role',
-        type: 'list',
-        message: 'What is the employees role?', 
-        choice: [
-          'Sales Lead', 
-          'Sales Person',
-          'Lead Engineer', 
-          'Software Engineer',
-          'Accountant',
-          'Legal Team Lead'
-        ]
-        }     
-        )
-      .then((answer) => {
-        // FIGURE OUT WHAT GOES HERE 
-        selectAction();
-        });
-      };
-
-// *************  REMOVE EMPLOYEE FUNCTION  **************
+// *************  REMOVE EMPLOYEE FUNCTION - EXTRA CREDIT  **************
 // figure out which type is appropriate and how to dynamically list employees from table 
   const removeEmployee = () => {
     inquirer
@@ -187,29 +259,11 @@ const selectAction = () => {
         }     
         )
       .then((answer) => {
-// FIGURE OUT WHAT GOES HERE TO REMOVE SELECTED EMPLOYEE FROM TABLE 
+        // FIGURE OUT WHAT GOES HERE TO REMOVE SELECTED EMPLOYEE FROM TABLE 
         selectAction();
         });
       };
-  
-
- // ************* UPDATE THE EMPLOYEE ROLE *********************     
-  const updateRole = () => {
-    inquirer
-      .prompt([ 
-
-
-      ])
-      .then((answer) => {
-
-       
-      
-      selectAction();
-      }
-      )
-    }
-
- // ************* UPDATE THE EMPLOYEE MANAGER *********************     
+  // ************* UPDATE THE EMPLOYEE MANAGER - EXTRA CREDIT *********************     
  const updateManager = () => {
   inquirer
     .prompt([ 
@@ -223,4 +277,6 @@ const selectAction = () => {
     selectAction();
     }
     )
-  }
+  } 
+    ]
+
