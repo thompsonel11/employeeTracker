@@ -150,8 +150,9 @@ const selectAction = () => {
         selectAction();
         });
       });
-
-  // ************* UPDATE EMPLOYEE ROLE - REQUIRED *********************     
+    };
+    
+   // ************* UPDATE EMPLOYEE ROLE - REQUIRED *********************     
   const updateRole = () => {
     inquirer
       .prompt([ 
@@ -195,11 +196,10 @@ const selectAction = () => {
 
 
 
-
   // ***************************************************************************  
   // *******************  BEGIN EXTRA CREDIT FUNCTIONS  ************************ 
   // ***************************************************************************  
-  
+
   // ************* VIEW ALL EMPLOYEES BY DEPT FUNCTION - EXTRA CREDIT **********
   const viewByDept = () => {
     inquirer
@@ -278,5 +278,4 @@ const selectAction = () => {
     }
     )
   } 
-    ]
-
+    
