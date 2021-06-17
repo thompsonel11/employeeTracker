@@ -14,7 +14,7 @@ connection.connect((err) => {
     runSearch();
   });
 
-// ************  PROMPT USER TO SELECTION ACTION ******************
+// ************  PROMPT USER TO SELECT ACTION ******************
 
 const selectAction = () => {
     inquirer
@@ -23,16 +23,30 @@ const selectAction = () => {
         type: 'list',
         message: 'What would you like to do?',
         choices: [
+          'View All Employees',
+          'View All Employees By Department',
+          'View All Employees By Manager',
           'Add Employee',
           'Remove Emloyee',
           'Update Employee Role',
-          'View All Roles',
-          'Add Role',
+          'Update Employee Manager',
           'Exit'
         ],
       })
       .then((answer) => {
         switch (answer.action) {
+          case 'View All Employees':
+            viewAll();
+            break;
+
+          case 'View All Employees By Department':
+            viewDept();
+            break;
+
+          case 'View All Employees By Manager':
+            viewManager();
+            break;           
+
           case 'Add Employee':
             addEmployee();
             break;
@@ -45,12 +59,12 @@ const selectAction = () => {
             updateRole();
             break;
   
-          case 'View All Roles':
-            viewRoles();
+          case 'Update Employee Manager':
+            updateManager();
             break;
   
-          case 'Add Role':
-            addRole();
+          case 'Exit':
+            connection.end();
             break;
   
           default:
@@ -59,6 +73,69 @@ const selectAction = () => {
         }
       });
   };
+
+  // ************************************************************
+  // ************  BEGIN FUNCTIONS FOR EACH ACTION **************
+  // ************************************************************
+
+  // ************* VIEW ALL FUNCTION ****************************
+  const viewAll = () => {
+    inquirer
+      .prompt(
+
+      )
+      .then((answer) => {
+
+       
+      
+      selectAction();
+      }
+      )
+  }
+
+  // ************* VIEW ALL BY DEPT FUNCTION *********************
+  const viewDept = () => {
+    inquirer
+      .prompt({
+        name: 'viewByDept',
+        type: 'list',
+        message: 'Which department would you like to view?',
+        choices: [
+
+        // HELP
+
+        ]}
+      )
+      .then((answer) => {
+
+       
+      
+      selectAction();
+      }
+      )
+  }
+
+  // ************* VIEW ALL BY MANAGER FUNCTION ******************
+  const viewManager = () => {
+    inquirer
+      .prompt({
+        name: 'viewByMan',
+        type: 'list',
+        message: 'Which managers team would you like to view?',
+        choices: [
+
+        // HELP
+
+        ]}
+      )
+      .then((answer) => {
+
+       
+      
+      selectAction();
+      }
+      )
+  }
 
   // *************  ADD EMPLOYEE FUNCTION  ******************
 
@@ -90,7 +167,7 @@ const selectAction = () => {
         }     
         )
       .then((answer) => {
-// FIGURE OUT WHAT GOES HERE 
+        // FIGURE OUT WHAT GOES HERE 
         selectAction();
         });
       };
@@ -121,100 +198,34 @@ const selectAction = () => {
       };
   
 
- // ************* UPDATE THE ROLE *********************     
+ // ************* UPDATE THE EMPLOYEE ROLE *********************     
   const updateRole = () => {
     inquirer
-      .prompt([
-        {
-          name: 'start',
-          type: 'input',
-          message: 'Enter starting position: ',
-          validate(value) {
-            if (isNaN(value) === false) {
-              return true;
-            }
-            return false;
-          },
-        },
-        {
-          name: 'end',
-          type: 'input',
-          message: 'Enter ending position: ',
-          validate(value) {
-            if (isNaN(value) === false) {
-              return true;
-            }
-            return false;
-          },
-        },
+      .prompt([ 
+
+
       ])
       .then((answer) => {
-        const query =
-          'SELECT position,song,artist,year FROM top5000 WHERE position BETWEEN ? AND ?';
-        connection.query(query, [answer.start, answer.end], (err, res) => {
-          if (err) throw err;
-          res.forEach(({ position, song, artist, year }) =>
-            console.log(
-              `Position: ${position} || Song: ${song} || Artist: ${artist} || Year: ${year}`
-            )
-          );
-          runSearch();
-        });
-      });
-  };
-  
-  const viewRoles = () => {
-    inquirer
-      .prompt({
-        name: 'song',
-        type: 'input',
-        message: 'What song would you like to look for?',
-      })
-      .then((answer) => {
-        console.log(`You searched for "${answer.song}"`);
-        connection.query(
-          'SELECT * FROM top5000 WHERE ?',
-          { song: answer.song },
-          (err, res) => {
-            if (err) throw err;
-            if (res[0]) {
-              console.log(
-                `Position: ${res[0].position} || Song: ${res[0].song} || Artist: ${res[0].artist} || Year: ${res[0].year}`
-              );
-              runSearch();
-            } else {
-              console.error('Song not found :(\n');
-              runSearch();
-            }
-          }
-        );
-      });
-  };
-  
-  const addRole = () => {
-    inquirer
-      .prompt({
-        name: 'role',
-        type: 'input',
-        message: 'What song would you like to look for?',
-      })
-      .then((answer) => {
-        console.log(`You searched for "${answer.song}"`);
-        connection.query(
-          'SELECT * FROM top5000 WHERE ?',
-          { song: answer.song },
-          (err, res) => {
-            if (err) throw err;
-            if (res[0]) {
-              console.log(
-                `Position: ${res[0].position} || Song: ${res[0].song} || Artist: ${res[0].artist} || Year: ${res[0].year}`
-              );
-              runSearch();
-            } else {
-              console.error('Song not found :(\n');
-              runSearch();
-            }
-          }
-        );
-      });
-  };
+
+       
+      
+      selectAction();
+      }
+      )
+    }
+
+ // ************* UPDATE THE EMPLOYEE MANAGER *********************     
+ const updateManager = () => {
+  inquirer
+    .prompt([ 
+
+
+    ])
+    .then((answer) => {
+
+       
+      
+    selectAction();
+    }
+    )
+  }
