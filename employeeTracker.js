@@ -15,8 +15,7 @@ const connection = mysql.createConnection({
 (async () => {
   connection.connect(async (err) => {
     if (err) throw err;
-    const message = await selectAction();
-    console.log(message);
+    await selectAction();
   });
 })();
 
@@ -98,7 +97,7 @@ const viewAll = async () => {
 };
 
 const addEmployee = async () => {
-  const roles = await query(`SELECT * FROM employeeDB.roleTable`);
+  const roles = await query(`SELECT * FROM roleTable`);
   const roleChoice = roles.map((choice) => ({
     name: choice.title,
     value: choice.id,
@@ -128,7 +127,7 @@ const addEmployee = async () => {
     },
   ]);
 
-  const queryText = `INSERT INTO employeeDB.employeeTable (firstName, lastName, roleId, managerId) VALUES (?,?,?,?)`;
+  const queryText = `INSERT INTO employeeTable (firstName, lastName, roleId, managerId) VALUES (?,?,?,?)`;
   let answers = [
     answer.firstName,
     answer.lastName,
@@ -142,7 +141,7 @@ const addEmployee = async () => {
 };
 
 const updateRole = async () => {
-  const roles = await query(`SELECT * FROM employeeDB.roleTable`);
+  const roles = await query(`SELECT * FROM roleTable`);
   const roleChoice = roles.map((choice) => ({
     name: choice.title,
     value: choice.id,
@@ -275,13 +274,12 @@ const addRole = async () => {
 };
 
 const addDept = async () => {
-  
   const answer = await inquirer.prompt([
     {
       name: "deptName",
       type: "input",
-      message: "What is the name of the department you would like to add?"
-    } 
+      message: "What is the name of the department you would like to add?",
+    },
   ]);
 
   const queryString = `INSERT INTO departmentTable (deptName) VALUES (?);`;
@@ -289,4 +287,4 @@ const addDept = async () => {
   const res = await query(queryString, parameters);
   console.table(res);
   selectAction();
-}
+};
