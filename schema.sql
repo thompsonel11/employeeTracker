@@ -34,14 +34,6 @@ SELECT * FROM roleTable;
 SELECT * FROM employeeTable;
 
 
--- JOIN TABLES 
-
-SELECT employeeTable.id "ID", employeeTable.firstName "FIRST NAME", employeeTable.lastName "LAST NAME", roleTable.title "JOB TITLE", departmentTable.deptName "DEPARTMENT", roleTable.salary "SALARY", CONCAT (m.firstName, " ", m.lastName) "MANAGER"
-FROM employeeTable e
-LEFT JOIN roleTable r ON r.id = r.departmentId 
-LEFT JOIN departmentTable d ON d.id = r.departmentId
-LEFT JOIN employeeTable m ON m.id = e.managerId
-ORDER BY id;
 
 -- JOIN TABLES 
 

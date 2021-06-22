@@ -1,5 +1,5 @@
 {
-  "name": "employeeTracker",
+  "name": "employee-tracker",
   "version": "1.0.0",
   "description": "# Unit 12 MySQL Homework: Employee Tracker",
   "main": "employeeTracker.js",
