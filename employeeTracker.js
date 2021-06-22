@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const { restoreDefaultPrompts } = require('inquirer');
 require('console.table');
 
 const connection = mysql.createConnection({
@@ -81,18 +82,23 @@ const selectAction = () => {
 
   // ************* VIEW ALL FUNCTION - REQUIRED ****************************
   const viewAll = () => {
-    const query = `SELECT employeeTable.id "ID", employeeTable.firstName "FIRST NAME", employeeTable.lastName "LAST NAME", roleTable.title "JOB TITLE", departmentTable.deptName "DEPARTMENT", roleTable.salary "SALARY", CONCAT (m.firstName, " ", m.lastName) "MANAGER"
+    connection.query(`SELECT e.id,
+    e.firstName,
+    e.lastName,
+    r.title,
+    d.deptName,
+    r.salary,
+    CONCAT (m.firstName, " ", m.lastName) AS managerFullName
+
     FROM employeeTable e
-    LEFT JOIN roleTable r ON r.id = r.departmentId 
+    LEFT JOIN roleTable r ON r.id = e.roleId 
     LEFT JOIN departmentTable d ON d.id = r.departmentId
     LEFT JOIN employeeTable m ON m.id = e.managerId
-    ORDER BY id;`
-    connection.query(query,(error,res)=> {
+    ORDER BY id;`,(error, res)=> {
       if (error) throw error;
-      console.table(res)
+      console.table(res);
       selectAction();
-    })
-  
+      })
   }
 
   // *************  ADD EMPLOYEE FUNCTION - REQUIRED  ******************
@@ -114,18 +120,24 @@ const selectAction = () => {
         name: 'role',
         type: 'list',
         message: 'What is the employees role?', 
-        choice: [
-          'Sales Lead', 
-          'Sales Person',
-          'Lead Engineer', 
-          'Software Engineer',
-          'Accountant',
-          'Legal Team Lead'
-        ]
+        choice () {
+          const roleArray = [];
+          results.forEach(({id, roleId}) => {
+            roleArray.push()
+          });
+        }  
+        // choice: [
+        //   'Sales Lead', 
+        //   'Sales Person',
+        //   'Lead Engineer', 
+        //   'Software Engineer',
+        //   'Accountant',
+        //   'Legal Team Lead'
+        // ]
         }     
         )
       .then((answer) => {
-        const query = `INSERT INTO employeeDB.employeeTable (employeeTable.firstName, employeeTable.lastName, employeeTable.roleId, employeeTable.managerId) VALUES (?,?,?,?)`
+        const query = `INSERT INTO employeeDB.employeeTable (e.firstName, e.lastName, e.roleId, e.managerId) VALUES (?,?,?,?)`
         connection.query(query,(error,res)=> {
         if (error) throw error;
         console.table(res)
@@ -176,7 +188,7 @@ const selectAction = () => {
       {
       name: 'roleDepartment',
       type: 'list',
-      message: 'Which departmnet does this role fall under?',
+      message: 'Which department does this role fall under?',
       choices: [
         'Sales', 
         'Finance', 

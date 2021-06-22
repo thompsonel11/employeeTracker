@@ -4,7 +4,7 @@ USE employeeDB;
 
 CREATE TABLE departmentTable (
   id INT AUTO_INCREMENT NOT NULL,
-  deptName VARCHAR(30) NULL,
+  deptName VARCHAR(30) NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -13,8 +13,7 @@ CREATE TABLE roleTable (
   title VARCHAR(30) NULL,
   salary DECIMAL UNSIGNED NULL,
   departmentId INT NULL, 
-  FOREIGN KEY(departmentId)
-  REFERENCES departmentTable(id),
+  FOREIGN KEY(departmentId) REFERENCES departmentTable(id),
   PRIMARY KEY (id)  
 );
 
@@ -24,10 +23,8 @@ CREATE TABLE employeeTable (
   lastName VARCHAR(30) NULL,
   roleId INT NULL, 
   managerId INT NULL,
-  FOREIGN KEY(managerId)
-  REFERENCES employeeTable(id), 
-  FOREIGN KEY(roleId)
-  REFERENCES roleTable(id), 
+  FOREIGN KEY(managerId) REFERENCES employeeTable(id), 
+  FOREIGN KEY(roleId) REFERENCES roleTable(id), 
   PRIMARY KEY (id)
 );
 
@@ -42,6 +39,22 @@ SELECT * FROM employeeTable;
 SELECT employeeTable.id "ID", employeeTable.firstName "FIRST NAME", employeeTable.lastName "LAST NAME", roleTable.title "JOB TITLE", departmentTable.deptName "DEPARTMENT", roleTable.salary "SALARY", CONCAT (m.firstName, " ", m.lastName) "MANAGER"
 FROM employeeTable e
 LEFT JOIN roleTable r ON r.id = r.departmentId 
+LEFT JOIN departmentTable d ON d.id = r.departmentId
+LEFT JOIN employeeTable m ON m.id = e.managerId
+ORDER BY id;
+
+-- JOIN TABLES 
+
+SELECT e.id,
+       e.firstName,
+       e.lastName,
+       r.title,
+       d.deptName,
+       r.salary,
+       CONCAT (m.firstName, " ", m.lastName) AS managerFullName
+
+FROM employeeTable e
+LEFT JOIN roleTable r ON r.id = e.roleId 
 LEFT JOIN departmentTable d ON d.id = r.departmentId
 LEFT JOIN employeeTable m ON m.id = e.managerId
 ORDER BY id;
