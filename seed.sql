@@ -18,13 +18,17 @@ VALUES ("Sales Lead", 160000, 4),
 
 
 INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
-VALUES ("Alison", "Blodgett", 1, NULL),
-("Liz", "Thompson", 2, 1),
-("Matt", "Rogers", 3, 2),
-("Alex", "Matthews", 4, 3),
-("Kat", "Joyner", 5, 4),
-("Sarah", "Michaels", 6, NULL),
-("Will", "Braddy", 7, 6),
-("Zach", "Williams", 8, NULL),
-("Beth", "Farley", 2, NULL);
+VALUES ("Alison", "Blodgett", 1, NULL);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Liz", "Thompson", 2, 1);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Matt", "Rogers", 2, 1);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Alex", "Matthews", 4, 3);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Kat", "Joyner", 5, NULL);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Sarah", "Michaels", 6, 5);
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Will", "Braddy", 7, 4);
 
