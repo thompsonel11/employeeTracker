@@ -1,17 +1,5 @@
 USE employeeDB;
 
-INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
-VALUES ("Alison", "Blodgett", 1, 4),
-("Liz", "Thompson", 2, 5),
-("Matt", "Rogers", 3, 1),
-("Alex", "Matthews", 4, 2),
-("Kat", "Joyner", 5, 3),
-("Sarah", "Michaels", 6, 6),
-("Will", "Braddy", 7, 7),
-("Zach", "Williams", 1, 4),
-("Beth", "Farley", 2, 5);
-
-
 INSERT INTO departmentTable (deptName)
 VALUES ("Engineering"), 
 ("Finance"),
@@ -28,4 +16,15 @@ VALUES ("Sales Lead", 160000, 4),
 ("Legal Team Lead", 200000, 3),
 ("Lawyer", 150000, 3);
 
+
+INSERT INTO employeeTable (firstName, lastName, roleId, managerId)
+VALUES ("Alison", "Blodgett", 1, NULL),
+("Liz", "Thompson", 2, 1),
+("Matt", "Rogers", 3, 2),
+("Alex", "Matthews", 4, 3),
+("Kat", "Joyner", 5, 4),
+("Sarah", "Michaels", 6, NULL),
+("Will", "Braddy", 7, 6),
+("Zach", "Williams", 8, NULL),
+("Beth", "Farley", 2, NULL);
 

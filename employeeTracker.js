@@ -25,18 +25,12 @@ const selectAction = () => {
         message: 'What would you like to do?',
         choices: [
           'View All Employees',
-          // 'View All Employees By Department',
-          // 'View All Employees By Manager',
           'Add Employee',
-          // 'Remove Employee',
           'Update Employee Role',
-          // 'Update Employee Manager',
           'View All Roles',
           'Add Role',
-          // 'Remove Role',
           'View All Departments',
           'Add Department',
-          // 'Remove Department',
           'Exit'
         ],
       })
@@ -44,31 +38,15 @@ const selectAction = () => {
         switch (answer.action) {
           case 'View All Employees':
             viewAll();
-            break;
-
-          // case 'View All Employees By Department':
-          //   viewByDept();
-          //   break;
-
-          // case 'View All Employees By Manager':
-          //   viewByManager();
-          //   break;           
+            break;        
 
           case 'Add Employee':
             addEmployee();
             break;
   
-          // case 'Remove Employee':
-          //   removeEmployee();
-          //   break;
-  
           case 'Update Employee Role':
             updateRole();
             break;
-  
-          // case 'Update Employee Manager':
-          //   updateManager();
-          //   break;
           
           case 'View All Roles':
             viewAllRoles();
@@ -77,10 +55,6 @@ const selectAction = () => {
           case 'Add Role':
             addRole();
             break;
-
-          // case 'Remove Role':
-          //   removeRole();
-          //   break;
 
           case 'View All Departments':
             viewAllDept();
@@ -107,16 +81,24 @@ const selectAction = () => {
 
   // ************* VIEW ALL FUNCTION - REQUIRED ****************************
   const viewAll = () => {
-    const query = `SELECT * FROM employeeDB.employeeTable`
+    const query = `SELECT employeeTable.id "ID", employeeTable.firstName "FIRST NAME", employeeTable.lastName "LAST NAME", roleTable.title "JOB TITLE", departmentTable.deptName "DEPARTMENT", roleTable.salary "SALARY", CONCAT (m.firstName, " ", m.lastName) "MANAGER"
+    FROM employeeTable e
+    LEFT JOIN roleTable r ON r.id = r.departmentId 
+    LEFT JOIN departmentTable d ON d.id = r.departmentId
+    LEFT JOIN employeeTable m ON m.id = e.managerId
+    ORDER BY id;`
     connection.query(query,(error,res)=> {
       if (error) throw error;
       console.table(res)
       selectAction();
-    })}
+    })
+  
+  }
 
   // *************  ADD EMPLOYEE FUNCTION - REQUIRED  ******************
     const addEmployee = () => {
-    inquirer
+    // insert query for all roles to map to the choices
+      inquirer
       .prompt(
         {
         name: 'firstName',
@@ -179,6 +161,33 @@ const selectAction = () => {
 
   // ****************** ADD ROLE FUNCTION - REQUIRED *********************
   const addRole = () => {
+    inquirer
+      .prompt([
+      {
+      name: 'roleName',
+      type: 'input',
+      message: 'What is the role you would like to add?'  
+      },
+      {
+      name: 'roleSalary',
+      type: 'input',
+      message: 'What is the salary of this role?'  
+      }, 
+      {
+      name: 'roleDepartment',
+      type: 'list',
+      message: 'Which departmnet does this role fall under?',
+      choices: [
+        'Sales', 
+        'Finance', 
+        'Legal', 
+
+      ] 
+      }
+      ])
+      .then (answer => {
+        
+      })
 
   }
 
@@ -193,105 +202,7 @@ const selectAction = () => {
     })}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
-
-  // ***************************************************************************  
-  // *******************  BEGIN EXTRA CREDIT FUNCTIONS  ************************ 
-  // ***************************************************************************  
-
-  // ************* VIEW ALL EMPLOYEES BY DEPT FUNCTION - EXTRA CREDIT **********
-  const viewByDept = () => {
-    inquirer
-      .prompt({
-        name: 'viewByDept',
-        type: 'list',
-        message: 'Which department would you like to view?',
-        choices: [
-
-        // HELP - dynamically return list of departments from DB
-
-        ]}
-      )
-      .then((answer) => {
-
-      selectAction();
-      }
-      )
-  }
-
-  // ************* VIEW ALL BY MANAGER FUNCTION - EXTRA CREDIT  ******************
-  const viewManager = () => {
-    inquirer
-      .prompt({
-        name: 'viewByMan',
-        type: 'list',
-        message: 'Which managers team would you like to view?',
-        choices: [
-
-        // HELP
-
-        ]}
-      )
-      .then((answer) => {
-
-       
-      
-      selectAction();
-      }
-      )
-  }
-
+  // GENERATE LISTS 
   
-
-// *************  REMOVE EMPLOYEE FUNCTION - EXTRA CREDIT  **************
-  const removeEmployee = () => {
-    inquirer
-      .prompt(
-        {
-        name: 'removeEmp',
-        type: 'list',
-        message: 'Which employee would you like to remove?', 
-        choice: [
-
-        ]
-        }     
-        )
-      .then((answer) => {
-        // FIGURE OUT WHAT GOES HERE TO REMOVE SELECTED EMPLOYEE FROM TABLE 
-        selectAction();
-        });
-      };
-  // ************* UPDATE THE EMPLOYEE MANAGER - EXTRA CREDIT *********************     
- const updateManager = () => {
-  inquirer
-    .prompt([ 
-
-
-    ])
-    .then((answer) => {
-
-       
-      
-    selectAction();
-    }
-    )
-  } 
-    
+  

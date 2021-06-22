@@ -13,7 +13,7 @@ CREATE TABLE roleTable (
   title VARCHAR(30) NULL,
   salary DECIMAL UNSIGNED NULL,
   departmentId INT NULL, 
-  CONSTRAINT FK_departmentId_tbl_departmentTable FOREIGN KEY(departmentId)
+  FOREIGN KEY(departmentId)
   REFERENCES departmentTable(id),
   PRIMARY KEY (id)  
 );
@@ -24,8 +24,10 @@ CREATE TABLE employeeTable (
   lastName VARCHAR(30) NULL,
   roleId INT NULL, 
   managerId INT NULL,
-  CONSTRAINT FK_managerId_tbl_employeeTable FOREIGN KEY(managerId)
+  FOREIGN KEY(managerId)
   REFERENCES employeeTable(id), 
+  FOREIGN KEY(roleId)
+  REFERENCES roleTable(id), 
   PRIMARY KEY (id)
 );
 
@@ -35,7 +37,11 @@ SELECT * FROM roleTable;
 SELECT * FROM employeeTable;
 
 
-SELECT employeeTable.id, employeeTable.firstName, employeeTable.lastName, roleTable.title, departmentTable.deptName, roleTable.salary, employeeTable.managerId
-FROM employeeTable
-JOIN roleTable, departmentTable
-WHERE 
+-- JOIN TABLES 
+
+SELECT employeeTable.id "ID", employeeTable.firstName "FIRST NAME", employeeTable.lastName "LAST NAME", roleTable.title "JOB TITLE", departmentTable.deptName "DEPARTMENT", roleTable.salary "SALARY", CONCAT (m.firstName, " ", m.lastName) "MANAGER"
+FROM employeeTable e
+LEFT JOIN roleTable r ON r.id = r.departmentId 
+LEFT JOIN departmentTable d ON d.id = r.departmentId
+LEFT JOIN employeeTable m ON m.id = e.managerId
+ORDER BY id;
