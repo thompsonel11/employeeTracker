@@ -76,4 +76,5 @@ So that I can organize and plan my business
 
 ## Usage 
 
-* A video demonstrating the entirety of the app's functionality: 
+* A video demonstrating the entirety of the app's functionality: https://drive.google.com/file/d/1eFX-mSpBgAbCBSmfJWQq3J-XN5XMjXcC/view
+

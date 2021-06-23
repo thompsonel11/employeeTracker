@@ -77,24 +77,8 @@ const selectAction = async () => {
   }
 };
 
-const viewAll = async () => {
-  const res = await query(`SELECT e.id,
-    e.firstName,
-    e.lastName,
-    r.title,
-    d.deptName,
-    r.salary,
-    CONCAT (m.firstName, " ", m.lastName) AS managerFullName
 
-    FROM employeeTable e
-    LEFT JOIN roleTable r ON r.id = e.roleId 
-    LEFT JOIN departmentTable d ON d.id = r.departmentId
-    LEFT JOIN employeeTable m ON m.id = e.managerId
-    ORDER BY id;`);
 
-  console.table(res);
-  selectAction();
-};
 
 const addEmployee = async () => {
   const roles = await query(`SELECT * FROM roleTable`);
